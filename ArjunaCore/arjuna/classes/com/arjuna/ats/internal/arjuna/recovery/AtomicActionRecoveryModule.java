@@ -87,7 +87,7 @@ public class AtomicActionRecoveryModule implements RecoveryModule
           tsLogger.logger.debug("AtomicActionRecoveryModule first pass");
       }
 
-	  AtomicActions = _recoveryStore.allObjUids( _transactionType, aa_uids );
+	  AtomicActions = _recoveryStore.allObjUids( get_transactionType(), aa_uids );
 
       }
       catch ( ObjectStoreException ex ) {
@@ -121,7 +121,7 @@ public class AtomicActionRecoveryModule implements RecoveryModule
       }
 
       _transactionStatusConnectionMgr = new TransactionStatusConnectionManager() ;
-      _transactionType = type;
+      set_transactionType(type);
 
     }
 
@@ -130,14 +130,14 @@ public class AtomicActionRecoveryModule implements RecoveryModule
       boolean commitThisTransaction = true ;
 
       // Retrieve the transaction status from its original process.
-      int theStatus = _transactionStatusConnectionMgr.getTransactionStatus( _transactionType, recoverUid ) ;
+      int theStatus = _transactionStatusConnectionMgr.getTransactionStatus( get_transactionType(), recoverUid ) ;
 
       boolean inFlight = isTransactionInMidFlight( theStatus ) ;
 
       String Status = ActionStatus.stringForm( theStatus ) ;
 
       if (tsLogger.logger.isDebugEnabled()) {
-          tsLogger.logger.debug("transaction type is " + _transactionType + " uid is " +
+          tsLogger.logger.debug("transaction type is " + get_transactionType() + " uid is " +
                   recoverUid.toString() + "\n ActionStatus is " + Status +
                   " in flight is " + inFlight);
       }
@@ -146,15 +146,19 @@ public class AtomicActionRecoveryModule implements RecoveryModule
       {
          try
          {
-            RecoverAtomicAction rcvAtomicAction =
-               new RecoverAtomicAction( recoverUid, theStatus ) ;
-
-            rcvAtomicAction.replayPhase2() ;
+             replayPhase2(recoverUid, theStatus);
          }
          catch ( Exception ex ) {
              tsLogger.i18NLogger.warn_recovery_AtomicActionRecoveryModule_2(recoverUid, ex);
          }
       }
+   }
+
+   protected void replayPhase2(Uid recoverUid, int theStatus) {
+       RecoverAtomicAction rcvAtomicAction =
+          new RecoverAtomicAction( recoverUid, theStatus ) ;
+
+       rcvAtomicAction.replayPhase2() ;
    }
 
    private boolean isTransactionInMidFlight( int status )
@@ -198,7 +202,7 @@ public class AtomicActionRecoveryModule implements RecoveryModule
       Vector uidVector = new Vector() ;
 
       if (tsLogger.logger.isDebugEnabled()) {
-          tsLogger.logger.debug("processing " + _transactionType
+          tsLogger.logger.debug("processing " + get_transactionType()
                   + " transactions");
       }
 
@@ -246,7 +250,7 @@ public class AtomicActionRecoveryModule implements RecoveryModule
 
          try
          {
-            if ( _recoveryStore.currentState( currentUid, _transactionType ) != StateStatus.OS_UNKNOWN )
+            if ( _recoveryStore.currentState( currentUid, get_transactionType() ) != StateStatus.OS_UNKNOWN )
             {
                doRecoverTransaction( currentUid ) ;
             }
@@ -258,7 +262,17 @@ public class AtomicActionRecoveryModule implements RecoveryModule
       }
    }
 
-   // 'type' within the Object Store for AtomicActions.
+    protected String get_transactionType() {
+
+        return _transactionType;
+    }
+
+    protected void set_transactionType(String _transactionType) {
+
+        this._transactionType = _transactionType;
+    }
+
+    // 'type' within the Object Store for AtomicActions.
    private String _transactionType = new AtomicAction().type() ;
 
    // Array of transactions found in the object store of the
