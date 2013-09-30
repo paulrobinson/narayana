@@ -41,7 +41,6 @@
 -->
             -javaagent:${byteman.home}/byteman.jar=port:9091,listener:true,sys:${byteman.home}/byteman-dtest.jar
         </byteman.server.ipv6.jvm.args>
-        <jpda.server.jvm.args/>
     </properties>
     <build>
         <plugins>
@@ -251,7 +250,7 @@
 							<!-- System properties passed to test cases -->
 							<systemPropertyVariables>
 								<!-- Used in arquillian.xml - arguments for all JBoss AS instances. -->
-								<server.jvm.args>${jvm.args.memory} ${ipv4.server.jvm.args} ${byteman.server.jvm.args} ${jpda.server.jvm.args}</server.jvm.args>
+								<server.jvm.args>${jvm.args.memory} ${ipv4.server.jvm.args} ${byteman.server.jvm.args} ${jvm.args.debug}</server.jvm.args>
 								<java.rmi.server.codebase>file://target/test-classes/</java.rmi.server.codebase>
 								<node.address>localhost</node.address>
 							</systemPropertyVariables>
@@ -294,7 +293,7 @@
 							<!-- System properties passed to test cases -->
 							<systemPropertyVariables>
 								<!-- Used in arquillian.xml - arguments for all JBoss AS instances. -->
-								<server.jvm.args>${jvm.args.memory} ${ipv6.server.jvm.args} ${byteman.server.ipv6.jvm.args} ${jpda.server.jvm.args}</server.jvm.args>
+								<server.jvm.args>${jvm.args.memory} ${ipv6.server.jvm.args} ${byteman.server.ipv6.jvm.args}  ${jvm.args.debug}</server.jvm.args>
 								<java.rmi.server.codebase>file://target/test-classes/</java.rmi.server.codebase>
 								<node.address>[::1]</node.address>
 							</systemPropertyVariables>

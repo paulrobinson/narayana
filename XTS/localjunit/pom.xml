@@ -130,7 +130,7 @@
       							<!--
       							  Used in arquillian.xml
       							-->
-      							  <server.jvm.args>${jvm.args.memory} ${ipv4.server.jvm.args}</server.jvm.args>
+      							  <server.jvm.args>${jvm.args.memory} ${ipv4.server.jvm.args} ${jvm.args.debug}</server.jvm.args>
                                     <node.address>127.0.0.1</node.address>
       							</systemPropertyVariables>
       						</configuration>
@@ -162,7 +162,7 @@
 							<!--
 							  Used in arquillian.xml
 							-->
-							  <server.jvm.args>${jvm.args.memory} ${jvm.args.byteman} ${ipv4.server.jvm.args}</server.jvm.args>
+							  <server.jvm.args>${jvm.args.memory} ${jvm.args.byteman} ${ipv4.server.jvm.args} ${jvm.args.debug}</server.jvm.args>
                               <node.address>127.0.0.1</node.address>
 							</systemPropertyVariables>
                             <skip>false</skip>
@@ -196,7 +196,7 @@
 							<!--
 							  Used in arquillian.xml
 							-->
-							  <server.jvm.args>${jvm.args.memory} ${jvm.args.byteman} ${ipv6.server.jvm.args}</server.jvm.args>
+							  <server.jvm.args>${jvm.args.memory} ${jvm.args.byteman} ${ipv6.server.jvm.args} ${jvm.args.debug}</server.jvm.args>
                                                           <node.address>[::1]</node.address>
 							</systemPropertyVariables>
                             <skip>false</skip>

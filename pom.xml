@@ -346,7 +346,8 @@
                         -javaagent:${project.build.directory}/lib/byteman.jar=listener:true
     </jvm.args.byteman>
     <jvm.args.memory>-Xms64m -Xmx1024m -XX:MaxPermSize=512m</jvm.args.memory>
-    
+
+
     <!-- External dependencies versions -->
     <jboss-as.version>7.2.0.Final</jboss-as.version>    
     <version.org.jboss.jbossas>1.0.4.Final</version.org.jboss.jbossas>
